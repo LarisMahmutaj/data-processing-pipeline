@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changes/001-create-users-table.yaml
+  - include:
+      file: db/changelog/changes/002-create-roles-table.yaml
+  - include:
+      file: db/changelog/changes/003-create-user-roles-table.yaml
+  - include:
+      file: db/changelog/changes/004-create-pipelines-table.yaml
+  - include:
+      file: db/changelog/changes/005-create-pipeline-nodes-table.yaml
+  - include:
+      file: db/changelog/changes/006-create-pipeline-permissions-table.yaml
+  - include:
+      file: db/changelog/changes/007-insert-default-roles.yaml
+  - include:
+      file: db/changelog/changes/008-insert-test-users.yaml
+  - include:
+      file: db/changelog/changes/009-create-exported-data-table.yaml

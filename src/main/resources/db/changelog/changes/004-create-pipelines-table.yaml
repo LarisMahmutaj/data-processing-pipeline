@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-pipelines-table
+      author: Laris
+      changes:
+        - createTable:
+            tableName: pipelines
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: owner_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: error_handling_strategy
+                  type: VARCHAR(50)
+                  defaultValue: STOP_ON_ERROR
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: pipelines
+            baseColumnNames: owner_id
+            constraintName: fk_pipelines_owner
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - createIndex:
+            indexName: idx_pipelines_owner_id
+            tableName: pipelines
+            columns:
+              - column:
+                  name: owner_id
+        - createIndex:
+            indexName: idx_pipelines_name
+            tableName: pipelines
+            columns:
+              - column:
+                  name: name

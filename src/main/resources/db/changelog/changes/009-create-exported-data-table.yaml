@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-create-exported-data-table
+      author: Laris
+      changes:
+        - createTable:
+            tableName: exported_data
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: export_key
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: exported_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            baseTableName: exported_data
+            baseColumnNames: created_by
+            constraintName: fk_exported_data_created_by
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: SET NULL
+        - createIndex:
+            indexName: idx_exported_data_key_time
+            tableName: exported_data
+            columns:
+              - column:
+                  name: export_key
+              - column:
+                  name: exported_at
+                  descending: true

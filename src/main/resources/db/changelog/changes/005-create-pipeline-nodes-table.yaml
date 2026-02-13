@@ -1,0 +1,71 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-pipeline-nodes-table
+      author: Laris
+      changes:
+        - createTable:
+            tableName: pipeline_nodes
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: pipeline_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: node_type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_index
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: configuration
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: pipeline_nodes
+            baseColumnNames: pipeline_id
+            constraintName: fk_pipeline_nodes_pipeline
+            referencedTableName: pipelines
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - createIndex:
+            indexName: idx_pipeline_nodes_pipeline_id
+            tableName: pipeline_nodes
+            columns:
+              - column:
+                  name: pipeline_id
+        - createIndex:
+            indexName: idx_pipeline_nodes_order
+            tableName: pipeline_nodes
+            columns:
+              - column:
+                  name: pipeline_id
+              - column:
+                  name: order_index
+        - createIndex:
+            indexName: idx_pipeline_nodes_type
+            tableName: pipeline_nodes
+            columns:
+              - column:
+                  name: node_type
+        - addUniqueConstraint:
+            tableName: pipeline_nodes
+            columnNames: pipeline_id, order_index
+            constraintName: uq_pipeline_nodes_order

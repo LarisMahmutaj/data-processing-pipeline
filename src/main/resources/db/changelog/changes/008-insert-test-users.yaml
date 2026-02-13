@@ -1,0 +1,163 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-insert-test-users
+      author: Laris
+      comment: Insert test users for development and testing purposes
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: admin@test.com
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: password_hash
+                  value: $2a$10$fF9ln71YxTlryAy8RmbwbeM/sKiI0ALR7c6P37Y0MlzMMiTlBpX1.
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  valueComputed: CURRENT_TIMESTAMP
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: editor@test.com
+              - column:
+                  name: username
+                  value: editor
+              - column:
+                  name: password_hash
+                  value: $2a$10$fF9ln71YxTlryAy8RmbwbeM/sKiI0ALR7c6P37Y0MlzMMiTlBpX1.
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  valueComputed: CURRENT_TIMESTAMP
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: basic@test.com
+              - column:
+                  name: username
+                  value: basic
+              - column:
+                  name: password_hash
+                  value: $2a$10$fF9ln71YxTlryAy8RmbwbeM/sKiI0ALR7c6P37Y0MlzMMiTlBpX1.
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  valueComputed: CURRENT_TIMESTAMP
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: viewer@test.com
+              - column:
+                  name: username
+                  value: viewer
+              - column:
+                  name: password_hash
+                  value: $2a$10$fF9ln71YxTlryAy8RmbwbeM/sKiI0ALR7c6P37Y0MlzMMiTlBpX1.
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  valueComputed: CURRENT_TIMESTAMP
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: multirole@test.com
+              - column:
+                  name: username
+                  value: multirole
+              - column:
+                  name: password_hash
+                  value: $2a$10$fF9ln71YxTlryAy8RmbwbeM/sKiI0ALR7c6P37Y0MlzMMiTlBpX1.
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  valueComputed: CURRENT_TIMESTAMP
+  - changeSet:
+      id: 008-assign-user-roles
+      author: system
+      comment: Assign roles to test users
+      changes:
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 1
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 2
+              - column:
+                  name: role_id
+                  valueNumeric: 2
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 3
+              - column:
+                  name: role_id
+                  valueNumeric: 3
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 4
+              - column:
+                  name: role_id
+                  valueNumeric: 4
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 5
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 5
+              - column:
+                  name: role_id
+                  valueNumeric: 2
+      rollback:
+        - delete:
+            tableName: user_roles
+            where: user_id IN (1, 2, 3, 4, 5)
+        - delete:
+            tableName: users
+            where: email IN ('admin@test.com', 'editor@test.com', 'basic@test.com', 'viewer@test.com', 'multirole@test.com')

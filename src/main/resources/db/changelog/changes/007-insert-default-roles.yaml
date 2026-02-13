@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-insert-default-roles
+      author: Laris
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: Admin
+              - column:
+                  name: description
+                  value: Administrator with full system access
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: Editor
+              - column:
+                  name: description
+                  value: Can create and edit pipelines
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: Basic
+              - column:
+                  name: description
+                  value: Basic user with limited access
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: Viewer
+              - column:
+                  name: description
+                  value: Read-only access to pipelines

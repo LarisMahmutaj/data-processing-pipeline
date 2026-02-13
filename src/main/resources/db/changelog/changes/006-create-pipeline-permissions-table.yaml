@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-create-pipeline-permissions-table
+      author: Laris
+      changes:
+        - createTable:
+            tableName: pipeline_permissions
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: pipeline_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: permission_type
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: pipeline_permissions
+            baseColumnNames: pipeline_id
+            constraintName: fk_pipeline_permissions_pipeline
+            referencedTableName: pipelines
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: pipeline_permissions
+            baseColumnNames: role_id
+            constraintName: fk_pipeline_permissions_role
+            referencedTableName: roles
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - createIndex:
+            indexName: idx_pipeline_permissions_pipeline_id
+            tableName: pipeline_permissions
+            columns:
+              - column:
+                  name: pipeline_id
+        - createIndex:
+            indexName: idx_pipeline_permissions_role_id
+            tableName: pipeline_permissions
+            columns:
+              - column:
+                  name: role_id
+        - addUniqueConstraint:
+            tableName: pipeline_permissions
+            columnNames: pipeline_id, role_id, permission_type
+            constraintName: uq_pipeline_permissions
